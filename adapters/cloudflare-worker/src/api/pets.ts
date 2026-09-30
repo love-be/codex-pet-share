@@ -518,7 +518,7 @@ function stringField(form: FormData, name: string) {
 
 function requireFile(form: Record<string, UploadFile | string | undefined>, name: string) {
   const value = form[name];
-  if (!value || typeof value === "string") throw new HttpError("upload pet.json, spritesheet.webp, share.png, preview.webp, and poster.webp", 400);
+  if (!value || typeof value === "string") throw new HttpError("upload pet.json and spritesheet.webp with app-generated share.png, preview.webp, and poster.webp", 400);
   return value;
 }
 

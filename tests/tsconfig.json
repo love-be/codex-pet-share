@@ -1,0 +1,5 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["../src/vite-env.d.ts", "./upload-assets.ts"],
+  "compilerOptions": { "types": ["@cloudflare/workers-types"] }
+}

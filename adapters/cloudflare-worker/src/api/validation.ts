@@ -93,20 +93,20 @@ export function validateSpritesheet(bytes: Uint8Array, expectedVersion?: PetSpri
 
 export function validateShareImage(bytes: Uint8Array) {
   const size = pngSize(bytes);
-  if (size.width !== 1200 || size.height !== 630) throw new HttpError("share.png must be 1200x630", 400);
+  if (size.width !== 1200 || size.height !== 630) throw new HttpError("generated share.png must be 1200x630", 400);
 }
 
 export function validatePreviewImage(bytes: Uint8Array, spriteVersionNumber: PetSpriteVersion = 1) {
-  const size = webpSize(bytes, "preview.webp");
+  const size = webpSize(bytes, "generated preview.webp");
   const expectedWidth = spriteVersionNumber === 2 ? 7008 : 5472;
   if (size.width !== expectedWidth || size.height !== 104) {
-    throw new HttpError(`preview.webp must be ${expectedWidth}x104 for v${spriteVersionNumber}`, 400);
+    throw new HttpError(`generated preview.webp must be ${expectedWidth}x104 for v${spriteVersionNumber}`, 400);
   }
 }
 
 export function validatePosterImage(bytes: Uint8Array) {
-  const size = webpSize(bytes, "poster.webp");
-  if (size.width !== cell.width || size.height !== cell.height) throw new HttpError(`poster.webp must be ${cell.width}x${cell.height}`, 400);
+  const size = webpSize(bytes, "generated poster.webp");
+  if (size.width !== cell.width || size.height !== cell.height) throw new HttpError(`generated poster.webp must be ${cell.width}x${cell.height}`, 400);
 }
 
 export function validationFromBytes(manifest: Manifest, spritesheet: Uint8Array, version?: PetSpriteVersion): ValidationReport {
@@ -148,7 +148,7 @@ function webpSize(bytes: Uint8Array, name: string) {
 function pngSize(bytes: Uint8Array) {
   const signature = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
   if (bytes.length < 24 || signature.some((byte, index) => bytes[index] !== byte) || text(bytes, 12, 16) !== "IHDR") {
-    throw new HttpError("share.png must be a PNG file", 400);
+    throw new HttpError("generated share.png must be a PNG file", 400);
   }
   return { width: readU32BE(bytes, 16), height: readU32BE(bytes, 20) };
 }
